@@ -24,12 +24,12 @@ class _WebServices implements WebServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<Users>> getAllUsers() async {
+  Future<List<User>> getAllUsers() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<Users>>(Options(
+    final _options = _setStreamType<List<User>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -46,10 +46,10 @@ class _WebServices implements WebServices {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<Users> _value;
+    late List<User> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => Users.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => User.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
