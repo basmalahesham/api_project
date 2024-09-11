@@ -12,11 +12,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<User> usersList = [];
+  User user = User();
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<MyCubit>(context).emitGetAllUsers();
+    //BlocProvider.of<MyCubit>(context).emitGetAllUsers();
+    BlocProvider.of<MyCubit>(context).emitGetUserDetails(6940750);
   }
 
   @override
@@ -27,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
+/*
           BlocBuilder<MyCubit, MyState>(
             builder: (BuildContext context, state) {
               if (state is GetAllUsers) {
@@ -49,6 +52,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }else{
                 return const Center(child: CircularProgressIndicator(),);
+              }
+            },
+          ),
+*/
+          BlocBuilder<MyCubit, MyState>(
+            builder: (BuildContext context, state) {
+              if (state is GetUserDetails) {
+                user = state.userDetails;
+                return Container(
+                  height: 50,
+                  color: Colors.amber,
+                  child: Center(
+                    child: Text(
+                      user.email.toString(),
+                    ),
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
             },
           ),
