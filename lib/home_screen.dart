@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocBuilder<MyCubit, MyState>(
             builder: (BuildContext context, state) {
               if (state is GetAllUsers) {
-                usersList = (state).allUsersList;
+                usersList = state.allUsersList;
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(8),
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.amber,
                       child: Center(
                         child: Text(
-                          usersList[index].name.toString(),
+                          usersList[index].email.toString(),
                         ),
                       ),
                     );

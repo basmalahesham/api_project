@@ -9,7 +9,7 @@ final getIt = GetIt.instance;
 void initGetIt() {
   getIt.registerLazySingleton<MyCubit>(() => MyCubit(getIt()));
   getIt.registerLazySingleton<MyRepo>(() => MyRepo(getIt()));
-  getIt.registerLazySingleton<WebServices>(() => WebServices(createAndSetupDio()));
+  getIt.registerLazySingleton<WebServices>(() => WebServices(Dio()));
 }
 
 Dio createAndSetupDio() {
