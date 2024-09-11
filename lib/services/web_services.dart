@@ -10,5 +10,5 @@ abstract class WebServices {
   Future<List<User>> getAllUsers();
 
   @GET('users/{id}')
-  Future<User> getUserById(@Path() int userId);
+  Future<User> getUserById(@Path('id') int userId);
 }

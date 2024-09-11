@@ -71,7 +71,7 @@ class _WebServices implements WebServices {
     )
         .compose(
           _dio.options,
-          'users/{id}',
+          'users/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
