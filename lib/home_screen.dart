@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<MyCubit>(context).emitCreateNewUser(User(
         name:"Basmala hesham",
         gender:"female",
-        email:"basmala1.hesham20@gmail.com",
+        email:"basmala11.hesham20@gmail.com",
         status:"active"
     ));
 
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.amber,
                   child: Center(
                     child: Text(
-                      user.status.toString(),
+                      user.name.toString(),
                     ),
                   ),
                 );
