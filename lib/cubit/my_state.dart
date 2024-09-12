@@ -14,3 +14,9 @@ final class GetUserDetails extends MyState {
 
   GetUserDetails(this.userDetails);
 }
+final class CreateNewUser extends MyState {
+  final User newUser;
+
+  CreateNewUser(this.newUser);
+}
+
