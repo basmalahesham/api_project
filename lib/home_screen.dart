@@ -19,12 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     //BlocProvider.of<MyCubit>(context).emitGetAllUsers();
     //BlocProvider.of<MyCubit>(context).emitGetUserDetails(6940750);
-    BlocProvider.of<MyCubit>(context).emitCreateNewUser(User(
+   /* BlocProvider.of<MyCubit>(context).emitCreateNewUser(User(
         name:"Basmala hesham",
         gender:"female",
         email:"basmala11.hesham20@gmail.com",
         status:"active"
-    ));
+    ));*/
+    BlocProvider.of<MyCubit>(context).emitDeleteUser(7400964);
 
   }
 
@@ -85,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 */
+/*
           BlocBuilder<MyCubit, MyState>(
             builder: (BuildContext context, state) {
               if (state is CreateNewUser) {
@@ -95,6 +97,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: Text(
                       user.name.toString(),
+                    ),
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+*/
+          BlocBuilder<MyCubit, MyState>(
+            builder: (BuildContext context, state) {
+              if (state is DeleteUser) {
+                return Container(
+                  height: 50,
+                  color: Colors.amber,
+                  child: Center(
+                    child: Text(
+                      state.data.toString(),
                     ),
                   ),
                 );
