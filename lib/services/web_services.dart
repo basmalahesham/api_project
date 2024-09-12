@@ -18,6 +18,6 @@ abstract class WebServices {
       @Body() User newUser, @Header('Authorization') String token);
 
   @DELETE('users/{id}')
-  Future<HttpResponse> deleteUser(
+  Future<dynamic> deleteUser(
       @Path('id') int userId, @Header('Authorization') String token);
 }

@@ -130,7 +130,7 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<HttpResponse<dynamic>> deleteUser(
+  Future<dynamic> deleteUser(
     int userId,
     String token,
   ) async {
@@ -139,7 +139,7 @@ class _WebServices implements WebServices {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<dynamic>>(Options(
+    final _options = _setStreamType<dynamic>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -157,8 +157,7 @@ class _WebServices implements WebServices {
         )));
     final _result = await _dio.fetch(_options);
     final _value = _result.data;
-    final httpResponse = HttpResponse(_value, _result);
-    return httpResponse;
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
