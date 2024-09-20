@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:api_project/models/error_model.dart';
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -9,7 +10,8 @@ part 'network_exceptions.freezed.dart';
 abstract class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.requestCancelled() = RequestCancelled;
 
-  const factory NetworkExceptions.unauthorizedRequest(String reason) = UnauthorizedRequest;
+  const factory NetworkExceptions.unauthorizedRequest(String reason) =
+      UnauthorizedRequest;
 
   const factory NetworkExceptions.badRequest() = BadRequest;
 
@@ -23,7 +25,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
   const factory NetworkExceptions.sendTimeout() = SendTimeout;
 
-  const factory NetworkExceptions.unprocessableEntity(String reason) = UnprocessableEntity;
+  const factory NetworkExceptions.unprocessableEntity(String reason) =
+      UnprocessableEntity;
 
   const factory NetworkExceptions.conflict() = Conflict;
 
@@ -44,36 +47,36 @@ abstract class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.unexpectedError() = UnexpectedError;
 
   static NetworkExceptions handleResponse(Response? response) {
-    if (response?.data is List) {
-      List<ErrorModel> listOfErrors = (response!.data as List)
-          .map((e) => ErrorModel.fromJson(e))
-          .toList();
-      String allErrors = listOfErrors.map((e) => "${e.field} : ${e.message}").join(", ");
-      int statusCode = response.statusCode ?? 0;
-      switch (statusCode) {
-        case 400:
-        case 401:
-        case 403:
-          return NetworkExceptions.unauthorizedRequest(allErrors);
-        case 404:
-          return NetworkExceptions.notFound(allErrors);
-        case 409:
-          return const NetworkExceptions.conflict();
-        case 408:
-          return const NetworkExceptions.requestTimeout();
-        case 422:
-          return NetworkExceptions.unprocessableEntity(allErrors);
-        case 500:
-          return const NetworkExceptions.internalServerError();
-        case 503:
-          return const NetworkExceptions.serviceUnavailable();
-        default:
-          return NetworkExceptions.defaultError(
-            "Received invalid status code: $statusCode",
-          );
-      }
-    } else {
-      return NetworkExceptions.defaultError("Invalid response format");
+    List<ErrorModel> listOfErrors =
+        List.from(response?.data).map((e) => ErrorModel.fromJson(e)).toList();
+    String allErrors = listOfErrors
+        .map((e) => "${e.field} : ${e.message} ")
+        .toString()
+        .replaceAll("(", "")
+        .replaceAll(")", "");
+    int statusCode = response?.statusCode ?? 0;
+    switch (statusCode) {
+      case 400:
+      case 401:
+      case 403:
+        return NetworkExceptions.unauthorizedRequest(allErrors);
+      case 404:
+        return NetworkExceptions.notFound(allErrors);
+      case 409:
+        return const NetworkExceptions.conflict();
+      case 408:
+        return const NetworkExceptions.requestTimeout();
+      case 422:
+        return NetworkExceptions.unprocessableEntity(allErrors);
+      case 500:
+        return const NetworkExceptions.internalServerError();
+      case 503:
+        return const NetworkExceptions.serviceUnavailable();
+      default:
+        var responseCode = statusCode;
+        return NetworkExceptions.defaultError(
+          "Received invalid status code: $responseCode",
+        );
     }
   }
 
@@ -121,25 +124,44 @@ abstract class NetworkExceptions with _$NetworkExceptions {
   }
 
   static String getErrorMessage(NetworkExceptions networkExceptions) {
-    return networkExceptions.when(
-      notImplemented: () => "Not Implemented",
-      requestCancelled: () => "Request Cancelled",
-      internalServerError: () => "Internal Server Error",
-      notFound: (reason) => reason,
-      serviceUnavailable: () => "Service unavailable",
-      methodNotAllowed: () => "Method Not Allowed",
-      badRequest: () => "Bad request",
-      unauthorizedRequest: (error) => error,
-      unprocessableEntity: (error) => error,
-      unexpectedError: () => "Unexpected error occurred",
-      requestTimeout: () => "Connection request timeout",
-      noInternetConnection: () => "No internet connection",
-      conflict: () => "Error due to a conflict",
-      sendTimeout: () => "Send timeout in connection with API server",
-      unableToProcess: () => "Unable to process the data",
-      defaultError: (error) => error,
-      formatException: () => "Unexpected error occurred",
-      notAcceptable: () => "Not acceptable",
-    );
+    var errorMessage = "";
+    networkExceptions.when(notImplemented: () {
+      errorMessage = "Not Implemented";
+    }, requestCancelled: () {
+      errorMessage = "Request Cancelled";
+    }, internalServerError: () {
+      errorMessage = "Internal Server Error";
+    }, notFound: (String reason) {
+      errorMessage = reason;
+    }, serviceUnavailable: () {
+      errorMessage = "Service unavailable";
+    }, methodNotAllowed: () {
+      errorMessage = "Method Allowed";
+    }, badRequest: () {
+      errorMessage = "Bad request";
+    }, unauthorizedRequest: (String error) {
+      errorMessage = error;
+    }, unprocessableEntity: (String error) {
+      errorMessage = error;
+    }, unexpectedError: () {
+      errorMessage = "Unexpected error occurred";
+    }, requestTimeout: () {
+      errorMessage = "Connection request timeout";
+    }, noInternetConnection: () {
+      errorMessage = "No internet connection";
+    }, conflict: () {
+      errorMessage = "Error due to a conflict";
+    }, sendTimeout: () {
+      errorMessage = "Send timeout in connection with API server";
+    }, unableToProcess: () {
+      errorMessage = "Unable to process the data";
+    }, defaultError: (String error) {
+      errorMessage = error;
+    }, formatException: () {
+      errorMessage = "Unexpected error occurred";
+    }, notAcceptable: () {
+      errorMessage = "Not acceptable";
+    });
+    return errorMessage;
   }
 }
