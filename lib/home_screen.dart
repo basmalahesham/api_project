@@ -1,7 +1,5 @@
-import 'package:api_project/cubit/my_cubit.dart';
 import 'package:api_project/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         email:"basmala11.hesham20@gmail.com",
         status:"active"
     ));*/
-    BlocProvider.of<MyCubit>(context).emitDeleteUser(7400964);
+   // BlocProvider.of<MyCubit>(context).emitDeleteUser(7400964);
 
   }
 
@@ -108,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 */
+/*
           BlocBuilder<MyCubit, MyState>(
             builder: (BuildContext context, state) {
               if (state is DeleteUser) {
@@ -127,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           ),
+*/
 
         ],
       ),
