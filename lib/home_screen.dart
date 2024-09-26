@@ -1,5 +1,9 @@
+import 'package:api_project/cubit/my_cubit.dart';
+import 'package:api_project/cubit/result_state.dart';
 import 'package:api_project/models/user.dart';
+import 'package:api_project/network/network_exceptions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,14 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     //BlocProvider.of<MyCubit>(context).emitGetAllUsers();
     //BlocProvider.of<MyCubit>(context).emitGetUserDetails(6940750);
-   /* BlocProvider.of<MyCubit>(context).emitCreateNewUser(User(
-        name:"Basmala hesham",
-        gender:"female",
-        email:"basmala11.hesham20@gmail.com",
-        status:"active"
-    ));*/
-   // BlocProvider.of<MyCubit>(context).emitDeleteUser(7400964);
-
+    BlocProvider.of<MyCubit>(context).emitCreateNewUser(User(
+      name: "Basmala hesham",
+      gender: "female",
+      email: "basmala3111.hesham20@gmail.com",
+      status: "active",
+    ));
+    // BlocProvider.of<MyCubit>(context).emitDeleteUser(7400964);
   }
 
   @override
@@ -128,6 +131,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 */
 
+          BlocBuilder<MyCubit, ResultState<User>>(
+            builder: (context, ResultState<User> state) {
+              return state.when(
+                idle: () {
+                  return const Center(child: CircularProgressIndicator());
+                },
+                loading: () {
+                  return const Center(child: CircularProgressIndicator());
+                },
+                success: (User userData) {
+                  return Container(
+                    height: 50,
+                    color: Colors.red,
+                    child: Center(
+                      child: Text(
+                        userData.email.toString(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                },
+                error: (NetworkExceptions error) {
+                  return Center(
+                      child: Text(NetworkExceptions.getErrorMessage(error)));
+                },
+              );
+            },
+          ),
         ],
       ),
     );
